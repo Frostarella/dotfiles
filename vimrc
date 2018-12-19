@@ -11,6 +11,8 @@
 set term=xterm-256color
 set nocompatible
 
+set completeopt-=preview " get rid of preview in scratch buffer at top of file
+
 filetype on
 filetype plugin on
 filetype indent on 
@@ -83,7 +85,7 @@ set colorcolumn=80 " show column number 80
 set nofoldenable " disable folding
 
 " ------------- LANG ----------------------------------------------------------
-set spelllang=de,en
+set spelllang=en
 
 " ------------- FILESYSTEM ----------------------------------------------------
 " fu swapfiles
@@ -112,10 +114,6 @@ nnoremap Y yg_
 nnoremap go o<Esc>k
 nnoremap gO O<Esc>j
 
-" navigate throw tabs
-nnoremap <S-h> gT
-nnoremap <S-l> gt
-
 " space fuer comandmode
 nnoremap <space> :
 
@@ -125,9 +123,8 @@ cabbrev w!! w !sudo tee % > /dev/null %
 " source vimrc
 cabbrev so :source ~/.vimrc
 
-" emacs keybindings for command mode
-cnoremap <c-a> <home>
-cnoremap <c-e> <end>
+" turn on spell
+cabbrev spellon :setlocal spell
 
 " turn off hightlighting on backspace
 nnoremap <silent> <bs> :nohl<cr>
@@ -136,18 +133,15 @@ nnoremap <silent> <bs> :nohl<cr>
 nnoremap <leader>vim :tabnew ~/.vimrc<cr>
 nnoremap <silent> <leader>f gg=G``
 
-map <F6> :setlocal spell!<cr>
-
-
 " ------------- FILETYPE SETTINGS ---------------------------------------------
 autocmd Bufread,BufNewFile *.tex set filetype=tex 
 autocmd Bufread,BufNewFile *.md set filetype=markdown " Vim interprets .md as 'modula2'
 autocmd Bufread,BufNewFile *.mail set filetype=mail 
 
 " spell in tex
-" autocmd FileType tex setlocal spell
-" autocmd BufNewFile,BufRead *.tex setlocal spell
-" autocmd FileType tex set colorcolumn=125
+autocmd FileType tex setlocal spell
+autocmd BufNewFile,BufRead *.tex setlocal spell
+autocmd FileType tex set colorcolumn=125
 
 " javascript
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 expandtab
@@ -170,18 +164,16 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
-Plug 'bling/vim-airline'
-Plug 'lilydjwg/colorizer'
-Plug 'junegunn/vim-easy-align'
-Plug 'chriskempson/base16-vim'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'valloric/youcompleteme'
-Plug 'scrooloose/syntastic'
-Plug 'OmniSharp/omnisharp-vim'
-" Plug 'roxma/nvim-completion-manager'
-Plug 'gaalcaras/ncm-R'
-Plug 'w0rp/ale'
-Plug 'jpalardy/vim-slime'
+Plug 'bling/vim-airline' " pretty and useful bottom bar thingy
+Plug 'lilydjwg/colorizer' " for nicer colour stuffz on text
+Plug 'junegunn/vim-easy-align' " alignment tool
+Plug 'chriskempson/base16-vim' " base 16 themes
+Plug 'vim-airline/vim-airline-themes' " airline themes
+Plug 'valloric/youcompleteme' " completion
+Plug 'OmniSharp/omnisharp-vim' " completion server for c# and unity
+Plug 'w0rp/ale' " syntax
+Plug 'jpalardy/vim-slime' " send from one pane to another -> used for R
+Plug 'jiangmiao/auto-pairs' " insert parentheses is pairs
 call plug#end()
 
 " ------------- EASY ALIGN ----------------------------------------------------
@@ -196,17 +188,6 @@ set t_Co=256
 if has("termguicolors")
     set termguicolors
 endif
-
-" ------------- SYNTASTIC -----------------------------------------------------
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list=1
-let g:syntastic_check_on_open=1 
-let g:syntastic_check_on_wq=0 
-let g:syntastic_check_on_w=1 
 
 " ------------- WORDCOUNT FOR AIRLINE -----------------------------------------
 " from https://stackoverflow.com/questions/114431/fast-word-count-function-in-vim
@@ -248,48 +229,31 @@ let g:airline_left_sep=''
 let g:airline#extensions#branch#vcs_priority = ["git", "mercurial"]
 
 " ------------- YOU COMPLETE ME -----------------------------------------------
-let g:rainbow_active = 1
-let g:rainbow_load_separately = [
+let g:rainbow_active=1
+let g:rainbow_load_separately=[
     \ [ '*' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
     \ [ '*.tex' , [['(', ')'], ['\[', '\]'], ['\{', '\}']] ],
     \ [ '*.{cpp,java,cs}' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
     \ [ '*.{html,htm}' , [['(', ')'], ['\[', '\]'], ['{', '}'], ['<\a[^>]*>', '</[^>]*>']] ],
     \ ]
-let g:rainbow_guifgs = ['RoyalBlue3', 'DarkOrange3', 'DarkOrchid3', 'FireBrick']
-let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
-let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
-let g:ycm_register_as_syntastic_checker = 0
-
+let g:rainbow_guifgs=['RoyalBlue3', 'DarkOrange3', 'DarkOrchid3', 'FireBrick']
+let g:rainbow_ctermfgs=['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
+let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf.py'
+let g:ycm_register_as_syntastic_checker=0
 " uncomment the following line to disable youcompleteme
 " let g:loaded_youcompleteme = 1
 
-" ------------- OMNISHARP -----------------------------------------------------
-let g:OmniSharp_server_use_mono = 1 " use installed version of Mono
-
-" set server
-let g:OmniSharp_server_path = '/Users/mary/.vim/plugged/omnisharp-vim/omnisharp.http-osx/omnisharp/OmniSharp.exe'
-
-let g:OmniSharp_selector_ui = 'fzf' " Use fzf.vim
-let g:syntastic_cs_checkers = ['code_checker'] " work with syntastic
-let g:OmniSharp_timeout = 2 " Timeout in seconds to wait for a response from the server
-
-" Don't autoselect first omnicomplete option, show options even if there is only
-" one (so the preview documentation is accessible). Remove 'preview' if you
-" don't want to see any documentation whatsoever.
-set completeopt=menuone
-
-" Set desired preview window height for viewing documentation.
-" You might also want to look at the echodoc plugin.
-" set previewheight=5
-
-" Start Omnisharp Server manually: :OmniSharpStartServer
-
-
 " ------------- VIM-SLIME -----------------------------------------------------
 " https://github.com/jalvesaq/vim-slime
-let g:slime_target = 'tmux'
-let g:slime_paste_file = '$HOME/.vimslime_paste'
-let g:slime_default_config = {'socket_name': 'default', 'target_pane': ':.1'}
+let g:slime_target='tmux'
+let g:slime_paste_file='$HOME/.vimslime_paste'
+let g:slime_default_config={'socket_name': 'default', 'target_pane': ':.1'}
+
+" ------------- ALE -----------------------------------------------------------
+" https://github.com/w0rp/ale
+let g:ale_linters={
+\ 'cs':['OmniSharp']
+\}
 
 
 " =============================================================================
