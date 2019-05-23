@@ -109,6 +109,7 @@ alias fromfinder='cdf'
 alias R='rtichoke'
 alias sessions='tmux list-sessions'
 alias detach='tmux detach'
+alias gdiff='git diff HEAD'
 
 
 #======================================================================================
