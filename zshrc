@@ -171,3 +171,4 @@ function killsession {
 function switch {
     tmux switch -t $1
 }
+export PATH="/usrs/local/sbin:$PATH"
