@@ -82,7 +82,7 @@ set ttimeoutlen=10
 
 set colorcolumn=80 " show column number 80
 
-set nofoldenable " disable folding
+set nofoldenable " no folding when files are opened
 
 " ------------- LANG ----------------------------------------------------------
 set spelllang=en
@@ -148,9 +148,6 @@ autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 expandtab
 
 " mail
 autocmd FileType mail setlocal textwidth=80 spell
-
-" C
-autocmd FileType c setlocal foldmethod=syntax
 
 " =============================================================================
 "               PLUGINS
