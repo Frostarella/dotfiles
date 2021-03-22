@@ -19,7 +19,7 @@ filetype indent on
 
 " ------------- SYNTAX --------------------------------------------------------
 syntax enable
-set background=dark
+set background=light
 
 " ------------- ENCODING ------------------------------------------------------
 set encoding=utf8
@@ -68,7 +68,7 @@ set lazyredraw " Don't redraw while executing macros (good performance config)
 set showmatch " show matching brackets
 set wildmenu " graphical menu for command mode autocomplete
 set scrolloff=15 " number of lines above and below scroll
-set foldmethod=marker " folding
+set foldmethod=indent " folding
 set antialias " set antialias
 set switchbuf=usetab " use tabs
 set ttyfast " make Vim run moar smooth
@@ -167,10 +167,11 @@ Plug 'junegunn/vim-easy-align' " alignment tool
 Plug 'chriskempson/base16-vim' " base 16 themes
 Plug 'vim-airline/vim-airline-themes' " airline themes
 Plug 'valloric/youcompleteme' " completion
-Plug 'OmniSharp/omnisharp-vim' " completion server for c# and unity
-Plug 'w0rp/ale' " syntax
+"Plug 'OmniSharp/omnisharp-vim' " completion server for c# and unity
+"Plug 'w0rp/ale' " syntax
 Plug 'jpalardy/vim-slime' " send from one pane to another -> used for R
 Plug 'jiangmiao/auto-pairs' " insert parentheses is pairs
+"Plug 'posva/vim-vue' " syntax for Vue 
 call plug#end()
 
 " ------------- EASY ALIGN ----------------------------------------------------
@@ -257,4 +258,6 @@ let g:ale_linters={
 " =============================================================================
 " =============================================================================
 " colorscheme must always stay at the bottom
-colorscheme base16-mary
+"colorscheme base16-mary
+let ayucolor='light'
+colorscheme ayu

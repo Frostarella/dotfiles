@@ -65,7 +65,8 @@ export PATH="${JAVA_HOME}:${PATH}"
 source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -106,10 +107,10 @@ alias xetexdo="latexmk -xelatex -latexoption='-shell-escape -interaction=nonstop
 alias brewski='brew update && brew upgrade && brew cleanup; brew doctor'
 alias tofinder='ofd'
 alias fromfinder='cdf'
-alias R='rtichoke'
 alias sessions='tmux list-sessions'
 alias detach='tmux detach'
 alias gdiff='git diff HEAD'
+alias R='radian'
 
 
 #======================================================================================
